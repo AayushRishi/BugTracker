@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BugTracker.Data;
+using BugTracker.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = "907764228594-fdibpb9tamjuoos7h8m35chk5lepmcm2.apps.googleusercontent.com";
+    googleOptions.ClientSecret = "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";
+});
 
 var app = builder.Build();
 

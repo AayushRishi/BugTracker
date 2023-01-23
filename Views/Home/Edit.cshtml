@@ -1,0 +1,44 @@
+﻿@model Projects
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2>Edit Ticket</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Project"></label>
+            <input asp-for="Project" class="form-control" />
+            <span asp-validation-for="Project" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Contributors"></label>
+            <select id="SelectedValues" asp-for="Contributors" asp-items="Model.Contributorss" class="form-select" multiple></select>
+            <span asp-validation-for="Contributors" class="text-danger"></span>
+            <input asp-for="Contributors" type="hidden" name="SelectedValues" id="SelectedValuesInput">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="width:150px">
+            Back to list
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+
+        <script>
+            $("form").submit(function () {
+                var selectedValues = $("#SelectedValues").val();
+                $("#SelectedValuesInput").val(selectedValues);
+            });
+        </script>
+    }
+}

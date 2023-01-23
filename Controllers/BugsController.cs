@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BugTracker.Data;
 using BugTracker.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BugTracker.Controllers
 {
-
+    [Authorize]
     public class BugsController : Controller
     {
 
@@ -21,6 +23,7 @@ namespace BugTracker.Controllers
             _db = db;
         }
 
+        //[Authorize(Roles = "User")]
         public IActionResult Index()
         {
             IEnumerable<Bugs> objCategoryList = _db.bugs;
@@ -30,9 +33,22 @@ namespace BugTracker.Controllers
         //GET
         public IActionResult Create()
         {
+            List<SelectListItem> projectslist = new List<SelectListItem>();
+            var projectlist = _db.projects;
+
+            foreach(var pj in projectlist)
+            {
+                projectslist.Add(new SelectListItem
+                {
+                    Text = pj.Project,
+                    Value = pj.Project?.ToString()
+                });
+            }
+
             var model = new Bugs();
             model.Priority = "High";
             model.CreatedDateTime = DateTime.Today;
+            model.Projects = projectslist;
             return View(model);
         }
 
@@ -66,6 +82,19 @@ namespace BugTracker.Controllers
                 return NotFound();
             }
 
+            List<SelectListItem> projectslist = new List<SelectListItem>();
+            var projectlist = _db.projects;
+
+            foreach (var pj in projectlist)
+            {
+                projectslist.Add(new SelectListItem
+                {
+                    Text = pj.Project,
+                    Value = pj.Project?.ToString()
+                });
+            }
+
+            bugFromDb.Projects = projectslist;
             return View(bugFromDb);
         }
 
@@ -97,6 +126,20 @@ namespace BugTracker.Controllers
             {
                 return NotFound();
             }
+
+            List<SelectListItem> projectslist = new List<SelectListItem>();
+            var projectlist = _db.projects;
+
+            foreach (var pj in projectlist)
+            {
+                projectslist.Add(new SelectListItem
+                {
+                    Text = pj.Project,
+                    Value = pj.Project?.ToString()
+                });
+            }
+
+            bugFromDb.Projects = projectslist;
 
             return View(bugFromDb);
         }

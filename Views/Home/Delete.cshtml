@@ -1,0 +1,37 @@
+﻿@model Projects
+
+<form method="post" asp-action="DeletePOST">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2>Delete Ticket</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Project"></label>
+            <input asp-for="Project" disabled class="form-control" />
+            <span asp-validation-for="Project" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" disabled class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Contributors"></label>
+            <select asp-for="Contributors" asp-items="Model.Contributorss" disabled class="form-select" multiple></select>
+            <span asp-validation-for="Contributors" class="text-danger"></span>
+        </div>
+        
+        <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="width:150px">
+            Back to list
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

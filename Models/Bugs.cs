@@ -27,6 +27,9 @@ namespace BugTracker.Models
         public string? Priority { get; set; }
 
         [NotMapped]
+        public IEnumerable<SelectListItem>? Projects { get; set; }
+
+        [NotMapped]
         public List<SelectListItem> Priorities { get; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "High", Text = "High" },

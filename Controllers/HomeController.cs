@@ -4,6 +4,7 @@ using BugTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using BugTracker.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Controllers;
 
@@ -27,10 +28,14 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+
+        var vm = new ViewModel();
+        vm.Projects = _db.projects;
+        vm.Bugs = _db.bugs;
+
+        //IEnumerable<Projects> objCategoryList = _db.projects;
         
-        IEnumerable<Projects> objCategoryList = _db.projects;
-        
-        return View(objCategoryList);
+        return View(vm);
     }
 
     public IActionResult Privacy()

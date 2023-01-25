@@ -33,7 +33,7 @@ namespace BugTracker.Models
         public List<SelectListItem> Priorities { get; } = new List<SelectListItem>
         {
             new SelectListItem { Value = "High", Text = "High" },
-            new SelectListItem { Value = "Intermediate", Text = "Intermediate" },
+            new SelectListItem { Value = "Medium", Text = "Medium" },
             new SelectListItem { Value = "Low", Text = "Low"  },
         };
 

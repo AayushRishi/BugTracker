@@ -1,7 +1,10 @@
-﻿@model IEnumerable<Projects>
+﻿@*@model IEnumerable<Projects>*@
+@model ViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -28,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var project in Model)
+            @foreach (var project in Model.Projects)
             {
                 @if (project.Contributors.Contains(User.Identity.Name))
                 {
@@ -57,3 +60,108 @@
         </tbody>
     </table>
 </div>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <div>
+                <canvas id="myChart1" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <canvas id="myChart2" style="max-width:300px; max-height:300px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+
+<script>
+    const ctx1 = document.getElementById('myChart1');
+
+    var highCount = 0;
+    var mediumCount = 0;
+    var lowCount = 0;
+
+    @foreach(var item in Model.Bugs)
+{
+           @if(item.Priority == "High")
+               {
+                   @:highCount++;
+   }
+               @if(item.Priority == "Medium")
+               {
+                   @:mediumCount++;
+   }
+                   @if(item.Priority == "Low")
+               {
+                   @:lowCount++;
+   }
+
+
+}
+
+            new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: ["High", "Medium", "Low"],
+            datasets: [{
+                label: '# of Tickets',
+                data: [highCount, mediumCount, lowCount],
+                borderWidth: 1
+            }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'My Pie Chart'
+                    }
+                }
+        });
+</script>
+
+<script>
+    const ctx2 = document.getElementById('myChart2');
+
+    var completeCount = 0;
+    var inprogressCount = 0;
+    var pendingCount = 0;
+
+    @foreach(var item in Model.Bugs)
+{
+           @if(item.Status == "Complete")
+               {
+                   @:completeCount++;
+   }
+               @if(item.Status == "In Progress")
+               {
+                   @:inprogressCount++;
+   }
+                   @if(item.Status == "Pending")
+               {
+                   @:pendingCount++;
+   }
+
+
+}
+
+            new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ["Complete", "In Progress", "Pending"],
+            datasets: [{
+                label: '# of Tickets',
+                data: [completeCount, inprogressCount, pendingCount],
+                borderWidth: 1
+            }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'My Pie Chart'
+                    }
+                }
+        });
+</script>

@@ -23,12 +23,16 @@ namespace BugTracker.Controllers
             _db = db;
         }
 
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         public IActionResult Index()
         {
             IEnumerable<Bugs> objCategoryList = _db.bugs;
+
+
             return View(objCategoryList);
         }
+
+
 
         //GET
         public IActionResult Create()
@@ -38,11 +42,14 @@ namespace BugTracker.Controllers
 
             foreach(var pj in projectlist)
             {
-                projectslist.Add(new SelectListItem
+                if (pj.Contributors.Contains(User.Identity.Name))
                 {
-                    Text = pj.Project,
-                    Value = pj.Project?.ToString()
-                });
+                    projectslist.Add(new SelectListItem
+                    {
+                        Text = pj.Project,
+                        Value = pj.Project?.ToString()
+                    });
+                }
             }
 
             var model = new Bugs();

@@ -1,0 +1,75 @@
+﻿@model Comments
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <a asp-controller="Bugs" asp-action="Index" class="btn btn-danger" style="width:160px;">
+                Back to Ticket List
+            </a>
+        </div>
+        <div class="col-6 text-end">
+            <form method="post" asp-action="Delete">
+                <input asp-for="BugId" value="@Model.BugId" hidden />
+                <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Ticket</th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td width="17%">
+                @Model.hashmap_tDetail.FirstOrDefault(x => x.Key == "Ticket").Value
+            </td>
+            <td width="17%">
+                @Model.hashmap_tDetail.FirstOrDefault(x => x.Key == "Project").Value
+            </td>
+            <td width="10%">
+                @Model.hashmap_tDetail.FirstOrDefault(x => x.Key == "Status").Value
+            </td>
+            <td width="7%">
+                @Model.hashmap_tDetail.FirstOrDefault(x => x.Key == "Priority").Value
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Comment"></label>
+        <input asp-for="Comment" class="form-control" />
+        <span asp-validation-for="Comment" class="text-danger"></span>
+        <input type="hidden" asp-for="BugId" value="@Model.BugId" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:150px">Add Comment</button>
+
+</form>
+<br />
+
+<div class="container">
+    @*@foreach (var tkt in Model.ticketList)*@
+    @foreach (KeyValuePair<string, string>
+     entry in Model.hashmap)
+    {
+        <div class="row">
+            <textarea disabled>@entry.Key</textarea>
+        </div>
+        <p>@entry.Value</p><br />
+    }
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

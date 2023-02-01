@@ -25,5 +25,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Bugs> bugs { get; set; }
 
     public DbSet<Projects> projects { get; set; }
+
+    public DbSet<Comments> comments { get; set; }
 }
 
